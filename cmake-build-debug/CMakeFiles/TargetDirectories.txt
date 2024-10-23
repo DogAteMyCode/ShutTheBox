@@ -1,0 +1,3 @@
+C:/Users/ethan/CLionProjects/ShutTheBox/cmake-build-debug/CMakeFiles/ShutTheBox.dir
+C:/Users/ethan/CLionProjects/ShutTheBox/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/ethan/CLionProjects/ShutTheBox/cmake-build-debug/CMakeFiles/rebuild_cache.dir
