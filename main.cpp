@@ -1,9 +1,9 @@
 #include <cmath>
 #include <iostream>
 #include <numeric>
-#include <ranges>
 #include <unordered_map>
 #include <vector>
+#include <fstream>
 
 std::vector<unsigned short> numbers(unsigned short state) {
     std::vector<unsigned short> result;
@@ -13,6 +13,14 @@ std::vector<unsigned short> numbers(unsigned short state) {
             result.push_back(i + 1);
         }
         mask /= 2;
+    }
+    return result;
+}
+
+unsigned short numbers2state(std::vector<unsigned short> nums) {
+    unsigned int result = 0;
+    for (auto num : nums) {
+        result |= static_cast<unsigned short>(std::pow(2, num-1));
     }
     return result;
 }
@@ -46,7 +54,15 @@ unsigned int score(unsigned short state) {
     return s;
 }
 
-std::vector<std::vector<unsigned short> > combinations(const unsigned short n_arr[], unsigned short r,
+unsigned short addition(std::vector<unsigned short> nums) {
+    unsigned short result = 0;
+    for (auto num : nums) {
+        result += num;
+    }
+    return result;
+}
+
+std::vector<std::vector<unsigned short>> combinations(const unsigned short n_arr[], unsigned short r,
                                                        unsigned short n = 9) {
     std::vector<std::vector<unsigned short> > result;
     if (r > n) { return result; }
@@ -87,6 +103,72 @@ std::vector<std::vector<unsigned short> > combinations(const unsigned short n_ar
     }
 }
 
+unsigned short best_state_sum(unsigned short state, unsigned short sum, std::unordered_map<unsigned short, float> states) {
+    const std::vector<unsigned short> numerals = numbers(state);
+
+    const unsigned short n = numerals.size();
+
+    unsigned short total = addition(numerals);
+
+    unsigned short result = 0;
+    float hope = 12345678910.0f;
+
+    for (unsigned short i = 1; i < n; ++i) {
+        for (auto comb: combinations(numerals.data(), i, n)) {
+            unsigned short s = addition(comb);
+            if (total - s == sum) {
+                unsigned short new_state = numbers2state(comb);
+                float new_hope = states[new_state];
+                if (hope > new_hope) {
+                    result = new_state;
+                    hope = new_hope;
+                }
+            }
+        }
+    }
+
+    return result;
+
+}
+
+template <typename t> bool in(t val, std::vector<t> vec) {
+    for (auto v: vec) {
+        if (v == val) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<unsigned short> available(unsigned int state) {
+    const std::vector<unsigned short> numerals = numbers(state);
+
+    std::vector<unsigned short> result;
+
+    for (unsigned short i = 1; i <= 12; i++) {
+        if (in(i, numerals)) {
+            result.push_back(i);
+            continue;
+        }
+        bool found = false;
+        for (int j = 1; j <= 4; j++) {
+            for (auto comb: combinations(numerals.data(), j, numerals.size())) {
+                unsigned short s = addition(comb);
+                if (s == i) {
+                    result.push_back(i);
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
+    }
+
+    return result;
+
+}
 
 int main() {
     const unsigned short one = 1;
@@ -148,43 +230,79 @@ int main() {
         {17, 0},
     };
 
-    for (unsigned short i = 6; i < sizeof(numbers_arr) / sizeof(unsigned short); i++) {
-        states.insert({i + 1, probability[i + 1]});
+    for (unsigned short i = 7; i <= 9; i++) {
+        unsigned short p = numbers_arr[i-1];
+        states[p] = static_cast<float>(i)*(1.0f - probability[i]);
     }
 
     std::vector<std::vector<unsigned short> > cmb = combinations(numbers_arr, 2);
 
-    for (auto comb: cmb) {
-        unsigned short state = n2state(comb);
-        float hope = 0;
+    // Code for combinations of length 2,3,4,5,6,7,8,9
+    for (unsigned short r = 2; r <= 9; r++)
+    {
+        cmb = combinations(numbers_arr, r);
+        for (auto comb: cmb) {
+            const unsigned short state = n2state(comb);
+            float hope = 0;
 
-        for (auto num: comb) {
-            unsigned short n_state = state ^ num;
-            hope += states[n_state] * probability[number2number[num]];
+            const std::vector<unsigned short> av = available(state);
+
+            for (unsigned short i = 2; i <= 12; i++) {
+                if (in(i, av)) {
+                    unsigned short best_s = best_state_sum(state, i, states);
+                    hope += states[best_s] * probability[i];
+                }
+                else {
+                    hope += static_cast<float>(score(state)) * probability[i];
+                }
+            }
+
+            states[state] = hope;
         }
-
-        float p_move = 0.0f;
-
-        unsigned short total = 0;
-
-        for (auto num: comb) {
-            unsigned short n_state = state ^ num;
-            p_move += probability[number2number[num]];
-            total += number2number[num];
-        }
-
-        p_move += probability[total];
-
-        unsigned int s = score(state);
-
-        hope += s * (1-p_move);
-
-        states[state] = hope;
     }
 
+    std::ofstream MyFile;
+
+    MyFile.open("C:/Users/ethan/CLionProjects/ShutTheBox/output.json");
+
+    MyFile << "{" << std::endl;
+    unsigned short s = states.size();
+    unsigned short total = 0;
     for (auto state: states) {
-        std::cout << score(state.first) << ": " << state.second << std::endl;
+        MyFile << '"' << score(state.first) << '"' << ": " << std::fixed << state.second;
+        total += 1;
+        if (total != s) {
+            MyFile << "," << std::endl;
+        } else {
+            MyFile << std::endl;
+        }
     }
+
+    MyFile << "}";
+
+    MyFile.close();
+
+    unsigned short current_state = one | two | three | four | five | six | seven | eight | nine;
+
+    std::vector<unsigned short> av = available(current_state);
+
+    while (score(current_state) != 0) {
+        std::string inp;
+        std::cout << score(current_state) << std::endl;
+        std::cout << "Enter dice roll: ";
+        std::cin >> inp;
+        unsigned short dice = std::stoi(inp);
+
+        av = available(current_state);
+
+        if (! in(dice, av)) {
+            break;
+        }
+
+        current_state = best_state_sum(current_state, dice, states);
+    }
+
+    std::cout << "Final score is: " << score(current_state) << std::endl;
 
     return 0;
 }

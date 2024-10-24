@@ -43,10 +43,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Users\ethan\AppData\Local\Programs\CLion 2\bin\cmake\win\x64\bin\cmake.exe"
+CMAKE_COMMAND = C:\Users\ethan\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe
 
 # The command to remove a file.
-RM = "C:\Users\ethan\AppData\Local\Programs\CLion 2\bin\cmake\win\x64\bin\cmake.exe" -E rm -f
+RM = C:\Users\ethan\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -72,15 +72,15 @@ CMakeFiles/ShutTheBox.dir/main.cpp.obj: CMakeFiles/ShutTheBox.dir/flags.make
 CMakeFiles/ShutTheBox.dir/main.cpp.obj: C:/Users/ethan/CLionProjects/ShutTheBox/main.cpp
 CMakeFiles/ShutTheBox.dir/main.cpp.obj: CMakeFiles/ShutTheBox.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ethan\CLionProjects\ShutTheBox\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ShutTheBox.dir/main.cpp.obj"
-	C:\Users\ethan\AppData\Local\Programs\CLION2~1\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ShutTheBox.dir/main.cpp.obj -MF CMakeFiles\ShutTheBox.dir\main.cpp.obj.d -o CMakeFiles\ShutTheBox.dir\main.cpp.obj -c C:\Users\ethan\CLionProjects\ShutTheBox\main.cpp
+	C:\Users\ethan\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ShutTheBox.dir/main.cpp.obj -MF CMakeFiles\ShutTheBox.dir\main.cpp.obj.d -o CMakeFiles\ShutTheBox.dir\main.cpp.obj -c C:\Users\ethan\CLionProjects\ShutTheBox\main.cpp
 
 CMakeFiles/ShutTheBox.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ShutTheBox.dir/main.cpp.i"
-	C:\Users\ethan\AppData\Local\Programs\CLION2~1\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ethan\CLionProjects\ShutTheBox\main.cpp > CMakeFiles\ShutTheBox.dir\main.cpp.i
+	C:\Users\ethan\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ethan\CLionProjects\ShutTheBox\main.cpp > CMakeFiles\ShutTheBox.dir\main.cpp.i
 
 CMakeFiles/ShutTheBox.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ShutTheBox.dir/main.cpp.s"
-	C:\Users\ethan\AppData\Local\Programs\CLION2~1\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ethan\CLionProjects\ShutTheBox\main.cpp -o CMakeFiles\ShutTheBox.dir\main.cpp.s
+	C:\Users\ethan\AppData\Local\Programs\CLion\bin\mingw\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ethan\CLionProjects\ShutTheBox\main.cpp -o CMakeFiles\ShutTheBox.dir\main.cpp.s
 
 # Object files for target ShutTheBox
 ShutTheBox_OBJECTS = \
